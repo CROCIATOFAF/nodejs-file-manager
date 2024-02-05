@@ -1,24 +1,32 @@
-// navigation/list.js
-import fs from 'fs';
+import fs from 'fs/promises';
+import path from 'path';
 
-export const listDirectory = (currentPath) => {
+async function listDirectory(directory) {
     try {
-        const filesAndFolders = fs.readdirSync(currentPath, { withFileTypes: true });
-        const sortedDirectories = filesAndFolders
-            .filter(dirent => dirent.isDirectory())
-            .sort((a, b) => a.name.localeCompare(b.name));
+        const dirents = await fs.readdir(directory, { withFileTypes: true });
+        const folders = [];
+        const files = [];
 
-        const sortedFiles = filesAndFolders
-            .filter(dirent => dirent.isFile())
-            .sort((a, b) => a.name.localeCompare(b.name));
+        for (const dirent of dirents) {
+            if (dirent.isDirectory()) {
+                folders.push(dirent.name);
+            } else {
+                files.push(dirent.name);
+            }
+        }
 
-        const sorted = [...sortedDirectories, ...sortedFiles];
+        folders.sort();
+        files.sort();
 
-        sorted.forEach(dirent => {
-            const type = dirent.isDirectory() ? 'DIR' : 'FILE';
-            console.log(`${type} ${dirent.name}`);
-        });
+        const combined = [...folders, ...files].map((name, index) => ({
+            Name: name,
+            Type: folders.includes(name) ? 'Directory' : 'File',
+        }));
+
+        console.table(combined, ['Name', 'Type']);
     } catch (error) {
-        console.error('Operation failed', error);
+        console.error(`Error listing directory contents for ${directory}:`, error);
     }
-};
+}
+
+export { listDirectory };

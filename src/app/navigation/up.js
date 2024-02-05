@@ -1,4 +1,3 @@
-// navigation/up.js
 import path from 'path';
 
 export const navigateUp = (currentPath) => {
