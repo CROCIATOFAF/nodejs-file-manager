@@ -5,25 +5,24 @@ import { copy } from './copy.js';
 
 const unlinkAsync = promisify(fs.unlink);
 
-export async function move(source, destination, cwd = process.cwd()) {
+export async function move(source, destination) {
     try {
-        const absoluteSource = path.isAbsolute(source) ? source : path.resolve(cwd, source);
-        console.log(`Resolved source: ${absoluteSource}`);
+        const absoluteSource = path.resolve(source);
 
-        let finalDestination = path.isAbsolute(destination) ? destination : path.resolve(cwd, destination);
-        try {
-            const stats = await fs.promises.stat(finalDestination);
-            if (stats.isDirectory()) {
-                finalDestination = path.join(finalDestination, path.basename(source));
-            }
-        } catch {
+        let finalDestination = path.resolve(destination);
+        const stats = await fs.promises.stat(finalDestination).catch(() => null);
+
+        if (stats && stats.isDirectory()) {
+            finalDestination = path.join(finalDestination, path.basename(absoluteSource));
         }
-        console.log(`Resolved destination: ${finalDestination}`);
+
+        // console.log(`Resolved source: ${absoluteSource}`);
+        // console.log(`Resolved destination: ${finalDestination}`);
 
         await copy(absoluteSource, finalDestination);
         await unlinkAsync(absoluteSource);
-        console.log(`Successfully moved ${source} to ${finalDestination}`);
+        console.log(`Successfully moved ${absoluteSource} to ${finalDestination}`);
     } catch (error) {
-        console.error(`Error moving file: ${error}`);
+        console.error(`Error moving file: ${error.message}`);
     }
 }
