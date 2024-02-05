@@ -1,9 +1,10 @@
 import fs from 'fs';
 
-export function copy(source, destination) {
-    const readStream = fs.createReadStream(source);
-    const writeStream = fs.createWriteStream(destination);
-    readStream.pipe(writeStream).on('finish', () => {
-        console.log(`${source} has been copied to ${destination}`);
-    });
+export async function copy(sourcePath, destinationPath) {
+    try {
+        await fs.promises.copyFile(sourcePath, destinationPath);
+        console.log(`File copied from ${sourcePath} to ${destinationPath}`);
+    } catch (err) {
+        console.error(`Error copying file: ${err.message}`);
+    }
 }

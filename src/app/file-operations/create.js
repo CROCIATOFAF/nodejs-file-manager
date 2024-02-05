@@ -1,11 +1,11 @@
 import fs from 'fs';
 
-export function create(fileName) {
-    fs.writeFile(fileName, '', (err) => {
+export function create(filePath) {
+    fs.writeFile(filePath, '', 'utf-8', (err) => {
         if (err) {
-            console.error(`Error creating ${fileName}:`, err);
+            console.error(`Error creating file: ${err.message}`);
         } else {
-            console.log(`${fileName} has been created.`);
+            console.log(`File created: ${filePath}`);
         }
     });
 }

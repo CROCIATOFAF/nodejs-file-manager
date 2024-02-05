@@ -9,5 +9,5 @@
     "start": "node src"
   },
   "author": "David Gogua",
-  "license": "ISC"
+  "license": "MIT"
 }

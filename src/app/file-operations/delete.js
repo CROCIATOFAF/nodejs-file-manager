@@ -3,9 +3,9 @@ import fs from 'fs';
 export function deleteFile(filePath) {
     fs.unlink(filePath, (err) => {
         if (err) {
-            console.error(`Error deleting file:`, err);
+            console.error(`Error deleting file: ${err.message}`);
         } else {
-            console.log(`${filePath} has been deleted.`);
+            console.log(`File deleted: ${filePath}`);
         }
     });
 }

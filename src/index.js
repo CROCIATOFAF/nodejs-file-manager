@@ -102,28 +102,51 @@ class App {
                 listDirectory(this.cwd);
                 break;
             case 'cat':
-                if (args.length) read(path.join(this.cwd, args[0]));
-                else console.log('Usage: cat <filename>');
+                if (args.length) {
+                    const filePath = path.join(this.cwd, args[1]);
+                    console.log(`Reading file at path: ${filePath}`);
+                    read(filePath);
+                } else {
+                    console.log('Usage: cat <filename>');
+                }
                 break;
             case 'add':
-                if (args.length) create(path.join(this.cwd, args[0]));
-                else console.log('Usage: add <newFileName>');
+                if (args.length) {
+                    const filePath = path.join(this.cwd, args[1]);
+                    create(filePath);
+                } else {
+                    console.log('Usage: add <newFileName>');
+                }
+                break;
+            case 'rm':
+                if (args.length) {
+                    const filePath = path.join(this.cwd, args[1]);
+                    deleteFile(filePath);
+                } else {
+                    console.log('Usage: rm <filename>');
+                }
                 break;
             case 'rn':
-                if (args.length === 2) rename(path.join(this.cwd, args[0]), path.join(this.cwd, args[1]));
-                else console.log('Usage: rn <oldFileName> <newFileName>');
+                if (args.length >= 3) {
+                    const oldPath = path.join(this.cwd, args[1]);
+                    const newPath = path.join(this.cwd, args[2]);
+                    rename(oldPath, newPath);
+                } else {
+                    console.log('Usage: rn <oldPath> <newPath>');
+                }
                 break;
             case 'cp':
-                if (args.length === 2) copy(path.join(this.cwd, args[0]), path.join(this.cwd, args[1]));
-                else console.log('Usage: cp <sourcePath> <destinationPath>');
+                if (args.length >= 3) {
+                    const sourcePath = path.join(this.cwd, args[1]);
+                    const destinationPath = path.join(this.cwd, args[2]);
+                    copy(sourcePath, destinationPath).catch(console.error);
+                } else {
+                    console.log('Usage: cp <sourcePath> <destinationPath>');
+                }
                 break;
             case 'mv':
                 if (args.length === 2) move(path.join(this.cwd, args[0]), path.join(this.cwd, args[1]));
                 else console.log('Usage: mv <sourcePath> <destinationPath>');
-                break;
-            case 'rm':
-                if (args.length) deleteFile(path.join(this.cwd, args[0]));
-                else console.log('Usage: rm <filename>');
                 break;
             case 'hash':
                 if (args.length >= 2) {
