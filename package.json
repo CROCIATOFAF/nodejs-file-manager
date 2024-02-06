@@ -1,0 +1,13 @@
+{
+  "name": "nodejs-file-manager",
+  "version": "1.0.0",
+  "description": "file manager built using Node.js",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src"
+  },
+  "author": "David Gogua",
+  "license": "MIT"
+}
