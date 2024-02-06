@@ -25,7 +25,7 @@ async function listDirectory(directory) {
 
         console.table(combined, ['Name', 'Type']);
     } catch (error) {
-        console.error(`Error listing directory contents for ${directory}:`, error);
+        throw new Error(`Error listing directory contents for ${directory}: ${error.message}`);
     }
 }
 

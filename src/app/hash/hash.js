@@ -16,6 +16,6 @@ export function hashFile(filePath) {
     });
 
     fileStream.on('error', function (error) {
-        console.error(`Error reading the file: ${error.message}`);
+        throw new Error(`Error reading the file: ${filePath} - ${error.message}`);
     });
 }

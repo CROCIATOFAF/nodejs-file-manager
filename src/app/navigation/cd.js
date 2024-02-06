@@ -9,7 +9,7 @@ export const changeDirectory = (currentPath, targetPath) => {
         }
         console.log("The specified path does not exist or is not a directory.");
     } catch (error) {
-        console.error("Operation failed", error);
+        throw new Error("The specified path does not exist or is not a directory.");
     }
     return currentPath;
 };

@@ -23,6 +23,6 @@ export async function move(source, destination) {
         await unlinkAsync(absoluteSource);
         console.log(`Successfully moved ${absoluteSource} to ${finalDestination}`);
     } catch (error) {
-        console.error(`Error moving file: ${error.message}`);
+        throw new Error(`Error moving file: ${error.message}`);
     }
 }
